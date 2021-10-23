@@ -1,0 +1,19 @@
+logging:
+  level:
+    root: INFO
+
+# Set the port to the PORT environment variable
+server:
+  port: ${PORT:8080}
+
+spring:
+  cloud:
+    gcp:
+      datastore:
+        project-id: gujrati-tailors-backend
+        namespace: gujrati-tailors-backend
+
+
+
+jwt:
+  secret: jwt-secret
