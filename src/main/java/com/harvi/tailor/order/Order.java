@@ -46,7 +46,7 @@ public class Order {
     @Getter
     @Setter
     public static class OrderItem {
-        private String name;
+        private String id;
         private int rate;
         private int quantity;
     }

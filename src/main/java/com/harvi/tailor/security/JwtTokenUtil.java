@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil {
 
-    private static final long JWT_TOKEN_VALIDITY = Duration.ofHours(1).toMillis();
+    private static final long JWT_TOKEN_VALIDITY = Duration.ofHours(12).toMillis();
 
     @Value("${jwt.secret}")
     private String secret;

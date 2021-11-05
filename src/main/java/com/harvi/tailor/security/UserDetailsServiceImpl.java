@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final String ADMIN_USER = "Admin";
-    private static final String ADMIN_USER_PASSWORD = "$2a$10$QNX9BIFff9fm1n1cLQQMb.9O0z9wDv3DEYfuffl1B8m86/gVop/Am";
+    private static final String ADMIN_USER_PASSWORD = "$2a$10$IewqSnmKeaw2rLE6hdXAEeDGi6DM.z6uF6reoCvAKoVqg/OOL1D8u";
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

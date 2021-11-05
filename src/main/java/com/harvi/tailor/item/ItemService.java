@@ -24,33 +24,33 @@ public class ItemService {
         // All item names:
         // 'Kurta', 'Payjama', 'Pant Payjama', 'Pathani', 'Kurti', 'Jacket', 'Safari',
         // 'Waist Coat', 'Others'
-        ITEMS.add(new Item("blazerOrCoat", "Blazer/Coat", ItemGroup.COAT, ItemType.COAT));
-        ITEMS.add(new Item("suit2p", "2 Piece Suit", ItemGroup.COAT, ItemType.COMBO, List.of("blazerOrCoat", "pant")));
-        ITEMS.add(new Item("suit3p", "3 Piece Suit", ItemGroup.COAT, ItemType.COMBO,
+        ITEMS.add(new Item("blazerOrCoat", "Blazer/Coat", 3200, ItemGroup.COAT, ItemType.COAT));
+        ITEMS.add(new Item("suit2p", "2 Piece Suit", 3500, ItemGroup.COAT, ItemType.COMBO, List.of("blazerOrCoat", "pant")));
+        ITEMS.add(new Item("suit3p", "3 Piece Suit", 4000, ItemGroup.COAT, ItemType.COMBO,
                         List.of("blazerOrCoat", "pant", "waistCoat")));
-        ITEMS.add(new Item("jodhpuriSuit", "Jodhpuri Suit", ItemGroup.COAT, ItemType.COMBO,
+        ITEMS.add(new Item("jodhpuriSuit", "Jodhpuri Suit", 3500, ItemGroup.COAT, ItemType.COMBO,
                         List.of("blazerOrCoat", "pant")));
-        ITEMS.add(new Item("achkan", "Achkan", ItemGroup.COAT, ItemType.COAT));
+        ITEMS.add(new Item("achkan", "Achkan", 3500, ItemGroup.COAT, ItemType.COAT));
 
-        ITEMS.add(new Item("shirt", "Shirt", ItemGroup.SHIRT_PANT, ItemType.SHIRT));
-        ITEMS.add(new Item("pant", "Pant", ItemGroup.SHIRT_PANT, ItemType.PANT));
-        ITEMS.add(new Item("jeans", "Jeans", ItemGroup.SHIRT_PANT, ItemType.PANT));
-        ITEMS.add(new Item("kurti", "Kurti", ItemGroup.SHIRT_PANT, ItemType.SHIRT));
+        ITEMS.add(new Item("shirt", "Shirt", 300, ItemGroup.SHIRT_PANT, ItemType.SHIRT));
+        ITEMS.add(new Item("pant", "Pant", 400, ItemGroup.SHIRT_PANT, ItemType.PANT));
+        ITEMS.add(new Item("jeans", "Jeans", 500, ItemGroup.SHIRT_PANT, ItemType.PANT));
+        ITEMS.add(new Item("kurti", "Kurti", 300, ItemGroup.SHIRT_PANT, ItemType.SHIRT));
 
-        ITEMS.add(new Item("kurta", "Kurta", ItemGroup.KURTA_PAYJAMA, ItemType.KURTA));
-        ITEMS.add(new Item("payjama", "Payjama", ItemGroup.KURTA_PAYJAMA, ItemType.PAYJAMA));
-        ITEMS.add(new Item("pantPayjama", "Pant Payjama", ItemGroup.KURTA_PAYJAMA, ItemType.PANT));
-        ITEMS.add(new Item("pathaniSuit", "Pathani Suit", ItemGroup.KURTA_PAYJAMA, ItemType.COMBO,
+        ITEMS.add(new Item("kurta", "Kurta", 300, ItemGroup.KURTA_PAYJAMA, ItemType.KURTA));
+        ITEMS.add(new Item("payjama", "Payjama", 300, ItemGroup.KURTA_PAYJAMA, ItemType.PAYJAMA));
+        ITEMS.add(new Item("pantPayjama", "Pant Payjama", 400, ItemGroup.KURTA_PAYJAMA, ItemType.PANT));
+        ITEMS.add(new Item("pathaniSuit", "Pathani Suit", 600, ItemGroup.KURTA_PAYJAMA, ItemType.COMBO,
                         List.of("kurta", "payjama")));
 
-        ITEMS.add(new Item("jacket", "Jacket", ItemGroup.JACKET, ItemType.JACKET));
-        ITEMS.add(new Item("waistCoat", "Waist Coat", ItemGroup.JACKET, ItemType.JACKET));
+        ITEMS.add(new Item("jacket", "Jacket", 1000, ItemGroup.JACKET, ItemType.JACKET));
+        ITEMS.add(new Item("waistCoat", "Waist Coat", 1000, ItemGroup.JACKET, ItemType.JACKET));
 
         // safariShirt wont be visible in UI
-        ITEMS.add(new Item("safariShirt", "Safari Shirt", ItemGroup.MISCELLANEOUS, ItemType.SAFARI_SHIRT));
-        ITEMS.add(new Item("safariSuit", "Safari Suit", ItemGroup.MISCELLANEOUS, ItemType.COMBO,
+        ITEMS.add(new Item("safariShirt", "Safari Shirt", 400, ItemGroup.MISCELLANEOUS, ItemType.SAFARI_SHIRT));
+        ITEMS.add(new Item("safariSuit", "Safari Suit", 800, ItemGroup.MISCELLANEOUS, ItemType.COMBO,
                         List.of("safariShirt", "pant")));
-        ITEMS.add(new Item("others", "Others", ItemGroup.MISCELLANEOUS, ItemType.OTHERS));
+        ITEMS.add(new Item("others", "Others", 0, ItemGroup.MISCELLANEOUS, ItemType.OTHERS));
 
         ITEMS.stream().forEach(item -> ITEM_ID_TO_ITEM_MAP.put(item.getId(), item));
 

@@ -20,16 +20,17 @@ public class Item {
     private List<String> comboItemIds;
     private int rate;
 
-    public Item(String id, String name, String groupName, String type, List<String> comboItemIds) {
+    public Item(String id, String name, int rate, String groupName, String type, List<String> comboItemIds) {
         this.id = id;
         this.name = name;
         this.groupName = groupName;
+        this.rate = rate;
         this.type = type;
         this.comboItemIds = comboItemIds;
     }
 
-    public Item(String id, String name, String groupName, String type) {
-        this(id, name, groupName, type, null);
+    public Item(String id, String name, int rate, String groupName, String type) {
+        this(id, name, rate, groupName, type, null);
     }
 
     public static class ItemType {

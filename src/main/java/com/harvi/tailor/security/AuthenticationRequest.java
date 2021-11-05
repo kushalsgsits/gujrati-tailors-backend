@@ -14,6 +14,6 @@ public class AuthenticationRequest {
     private String password;
 
     public static void main(String[] args) {
-        System.out.println("encryptedPassword=" + new BCryptPasswordEncoder().encode("123"));
+        System.out.println("encryptedPassword=" + new BCryptPasswordEncoder().encode(""));
     }
 }
