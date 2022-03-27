@@ -12,6 +12,9 @@ spring:
       datastore:
         project-id: gujrati-tailors-backend
         namespace: gujrati-tailors-backend
+        emulator:
+          enabled: true
+          port: 8081
 
 
 
