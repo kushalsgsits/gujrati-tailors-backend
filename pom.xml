@@ -71,6 +71,10 @@
             <artifactId>spring-cloud-gcp-starter-data-datastore</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-api-1.0-sdk</artifactId>
+        </dependency>
+        <dependency>
             <!-- Include this dependency as this was removed in Java 8: https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception -->
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>

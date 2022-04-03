@@ -1,7 +1,9 @@
 package com.harvi.tailor.order;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -15,17 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin
 @RepositoryRestController
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrderSearchController {
 
-  @Autowired
-  private OrderService service;
+  private final OrderService service;
 
-  @GetMapping("searchOne")
-  ResponseEntity<CollectionModel<PersistentEntityResource>> searchParticular(
-      @RequestParam(name = "property") String property,
-      @RequestParam(name = "value") String value,
+  @GetMapping("customSearch")
+  ResponseEntity<CollectionModel<PersistentEntityResource>> searchMany(
+      @RequestParam Map<String, String> requestParams,
+      Pageable pageable,
       PersistentEntityResourceAssembler resourceAssembler) {
-    List<Order> orders = service.searchParticularOrder(property, value);
+
+    List<Order> orders = service.findAllOrderByDeliveryDateDesc(requestParams, pageable);
     return ResponseEntity.ok(resourceAssembler.toCollectionModel(orders));
   }
+
 }

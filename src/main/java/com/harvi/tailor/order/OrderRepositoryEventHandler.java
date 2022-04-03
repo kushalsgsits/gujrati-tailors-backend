@@ -1,6 +1,7 @@
 package com.harvi.tailor.order;
 
 import com.google.cloud.spring.data.datastore.core.DatastoreTemplate;
+import com.harvi.tailor.order.Order.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
@@ -35,6 +36,7 @@ public class OrderRepositoryEventHandler {
             // This is Case 1 i.e. orderId is not given
             computeAndSetOrderId(order);
         }
+        order.setOrderStatus(OrderStatus.CREATED);
     }
 
     @HandleBeforeSave
