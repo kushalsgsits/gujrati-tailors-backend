@@ -1,5 +1,7 @@
 package com.harvi.tailor.order;
 
+import static java.util.stream.StreamSupport.stream;
+
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
@@ -15,7 +17,6 @@ import java.util.Map;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -119,8 +120,7 @@ public class OrderService {
   }
 
   private List<Order> convertResultsToOrderList(QueryResults<Entity> results) {
-    return StreamSupport
-        .stream(Spliterators.spliteratorUnknownSize(results, Spliterator.ORDERED), false)
+    return stream(Spliterators.spliteratorUnknownSize(results, Spliterator.ORDERED), false)
         .map(Order::createOrderFromEntity)
         .collect(Collectors.toList());
   }

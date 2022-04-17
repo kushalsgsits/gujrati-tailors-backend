@@ -23,7 +23,7 @@ public class OrderSearchController {
   private final OrderService service;
 
   @GetMapping("customSearch")
-  ResponseEntity<CollectionModel<PersistentEntityResource>> searchMany(
+  ResponseEntity<CollectionModel<PersistentEntityResource>> customSearch(
       @RequestParam Map<String, String> requestParams,
       Pageable pageable,
       PersistentEntityResourceAssembler resourceAssembler) {
