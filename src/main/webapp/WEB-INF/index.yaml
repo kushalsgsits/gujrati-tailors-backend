@@ -8,36 +8,28 @@ indexes:
 
   - kind: "order"
     properties:
+      - name: "orderType"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "orderStatus"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
       - name: "orderStatus"
       - name: "orderType"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "orderNumber"
       - name: "deliveryDate"
         direction: desc
   - kind: "order"
     properties:
       - name: "customer.mobile"
-      - name: "orderNumber"
-      - name: "orderStatus"
-      - name: "orderType"
-      - name: "deliveryDate"
-        direction: desc
-  - kind: "order"
-    properties:
-      - name: "orderNumber"
-      - name: "deliveryDate"
-        direction: desc
-  - kind: "order"
-    properties:
-      - name: "customer.mobile"
-      - name: "deliveryDate"
-        direction: desc
-  - kind: "order"
-    properties:
-      - name: "orderType"
-      - name: "deliveryDate"
-        direction: desc
-  - kind: "order"
-    properties:
-      - name: "orderStatus"
       - name: "deliveryDate"
         direction: desc
   - kind: "order"
@@ -54,6 +46,12 @@ indexes:
         direction: desc
   - kind: "order"
     properties:
+      - name: "customer.mobile"
+      - name: "orderType"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
       - name: "orderNumber"
       - name: "orderStatus"
       - name: "deliveryDate"
@@ -61,12 +59,21 @@ indexes:
   - kind: "order"
     properties:
       - name: "customer.mobile"
-      - name: "orderType"
+      - name: "orderNumber"
+      - name: "orderStatus"
       - name: "deliveryDate"
         direction: desc
   - kind: "order"
     properties:
       - name: "customer.mobile"
       - name: "orderStatus"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "customer.mobile"
+      - name: "orderNumber"
+      - name: "orderStatus"
+      - name: "orderType"
       - name: "deliveryDate"
         direction: desc
