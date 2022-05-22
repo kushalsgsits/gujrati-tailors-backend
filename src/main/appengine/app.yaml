@@ -1,2 +1,9 @@
 runtime: java11
 instance_class: F2
+env: standard
+
+runtime_config:
+  jdk: openjdk11
+
+env_variables:
+  SPRING_PROFILES_ACTIVE: "prod"

@@ -54,12 +54,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
-    // We don't need CSRF for this app
-    httpSecurity.csrf().disable()
+
+    // CORS needs to be processed before Spring Web Security
+    // Besides, it exclude OPTIONS request from authorization checks
+    httpSecurity.cors().and()
+        // We don't need CSRF for this app
+        .csrf().disable()
         // dont authenticate login request (i.e. /authenticate)
         .authorizeRequests().antMatchers("/authenticate").permitAll()
-        // dont authenticate any OPTIONS request
-        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         // all other requests need to be authenticated
         .anyRequest().authenticated().and()
         // configure exceptionHandling using AuthenticationEntryPoint

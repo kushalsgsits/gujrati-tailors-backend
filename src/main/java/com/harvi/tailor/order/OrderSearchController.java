@@ -11,18 +11,18 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @CrossOrigin
 @RepositoryRestController
-@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderSearchController {
 
   private final OrderService service;
 
-  @GetMapping("customSearch")
+  // We cannot use @RequestMapping("/orders") at Class level:
+  // https://stackoverflow.com/questions/69825704/spring-data-rest-controller-must-not-use-requestmapping-on-class-level-as-this
+  @GetMapping("/orders/customSearch")
   ResponseEntity<CollectionModel<PersistentEntityResource>> customSearch(
       @RequestParam Map<String, String> requestParams,
       Pageable pageable,

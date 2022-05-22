@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    gcp:
+      datastore:
+        emulator:
+          enabled: true
+          port: 8081
