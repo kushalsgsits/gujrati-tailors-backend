@@ -30,6 +30,9 @@ public class AuthFilter extends OncePerRequestFilter {
       FilterChain chain)
       throws ServletException, IOException {
 
+    // TODO how to set HTTPS schema in request
+    log.info("Received request:: URI={}, Scheme={}", request.getRequestURI(), request.getScheme());
+
     final String requestTokenHeader = request.getHeader("Authorization");
 
     String username = null;
