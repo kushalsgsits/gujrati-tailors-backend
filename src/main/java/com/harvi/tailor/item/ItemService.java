@@ -32,6 +32,8 @@ public class ItemService {
                         List.of("blazerOrCoat", "pant")));
         ITEMS.add(new Item("achkan", "Achkan", 4000, ItemGroup.COAT, ItemType.COAT));
 
+        ITEMS.add(new Item("shirtPant", "Shirt-Pant", 750, ItemGroup.SHIRT_PANT, ItemType.COMBO,
+                        List.of("shirt", "pant")));
         ITEMS.add(new Item("shirt", "Shirt", 350, ItemGroup.SHIRT_PANT, ItemType.SHIRT));
         ITEMS.add(new Item("pant", "Pant", 450, ItemGroup.SHIRT_PANT, ItemType.PANT));
         ITEMS.add(new Item("jeans", "Jeans", 500, ItemGroup.SHIRT_PANT, ItemType.PANT));
