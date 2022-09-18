@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,17 +39,21 @@ public class OrderService {
   }
 
   private EntityQuery createQuery(Map<String, String> requestParams, Pageable pageable) {
+    var orderForDeliveryDate = pageable.getSort().getOrderFor("deliveryDate");
+    var orderBy = null == orderForDeliveryDate || orderForDeliveryDate.getDirection() == Sort.Direction.ASC ?
+                    OrderBy.asc("deliveryDate") :
+                    OrderBy.desc("deliveryDate");
     return Query.newEntityQueryBuilder()
         .setKind("order")
-        .setFilter(createQueryFilter(requestParams))
-        .setOrderBy(OrderBy.desc("deliveryDate"))
+        .setFilter(createQueryFilter(requestParams, orderBy.getDirection()))
+        .setOrderBy(orderBy)
         .setLimit(pageable.getPageSize())
         .setOffset((int) pageable.getOffset())
         .build();
   }
 
-  private CompositeFilter createQueryFilter(Map<String, String> requestParams) {
-    CompositeFilter deliveryDateFilter = createDeliveryDateFilter(requestParams);
+  private CompositeFilter createQueryFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
+    CompositeFilter deliveryDateFilter = createDeliveryDateFilter(requestParams, sortOrder);
 
     List<PropertyFilter> filters = new ArrayList<>();
     createOrderTypeFilter(requestParams, filters);
@@ -59,31 +64,31 @@ public class OrderService {
     return CompositeFilter.and(deliveryDateFilter, filters.toArray(new PropertyFilter[0]));
   }
 
-  private CompositeFilter createDeliveryDateFilter(Map<String, String> requestParams) {
+  private CompositeFilter createDeliveryDateFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
     return CompositeFilter.and(
-        createDeliveryDateStartFilter(requestParams),
-        createDeliveryDateEndFilter(requestParams)
+        createDeliveryDateStartFilter(requestParams, sortOrder),
+        createDeliveryDateEndFilter(requestParams, sortOrder)
     );
   }
 
-  private PropertyFilter createDeliveryDateStartFilter(Map<String, String> requestParams) {
+  private PropertyFilter createDeliveryDateStartFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
     String deliveryDateStart = requestParams.get("deliveryDateStart");
     Timestamp start;
     if (StringUtils.isNotBlank(deliveryDateStart)) {
       start = Timestamp.parseTimestamp(deliveryDateStart);
     } else {
-      start = Timestamp.MIN_VALUE;
+      start = OrderBy.Direction.ASCENDING == sortOrder ? Timestamp.now() : Timestamp.MIN_VALUE;
     }
     return PropertyFilter.ge("deliveryDate", start);
   }
 
-  private PropertyFilter createDeliveryDateEndFilter(Map<String, String> requestParams) {
+  private PropertyFilter createDeliveryDateEndFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
     String deliveryDateEnd = requestParams.get("deliveryDateEnd");
     Timestamp end;
     if (StringUtils.isNotBlank(deliveryDateEnd)) {
       end = Timestamp.parseTimestamp(deliveryDateEnd);
     } else {
-      end = Timestamp.MAX_VALUE;
+      end = OrderBy.Direction.ASCENDING == sortOrder ? Timestamp.MAX_VALUE : Timestamp.now();
     }
     return PropertyFilter.le("deliveryDate", end);
   }

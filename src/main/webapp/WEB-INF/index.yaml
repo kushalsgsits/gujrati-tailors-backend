@@ -10,10 +10,51 @@ indexes:
     properties:
       - name: "orderType"
       - name: "deliveryDate"
+  - kind: "order"
+    properties:
+      - name: "orderStatus"
+      - name: "deliveryDate"
+  - kind: "order"
+    properties:
+      - name: "orderStatus"
+      - name: "orderType"
+      - name: "deliveryDate"
+  - kind: "order"
+    properties:
+      - name: "orderNumber"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "orderType"
+      - name: "deliveryDate"
         direction: desc
   - kind: "order"
     properties:
       - name: "orderStatus"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "customer.mobile"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "orderNumber"
+      - name: "orderType"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "orderNumber"
+      - name: "orderStatus"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "customer.mobile"
+      - name: "orderNumber"
       - name: "deliveryDate"
         direction: desc
   - kind: "order"
@@ -24,29 +65,20 @@ indexes:
         direction: desc
   - kind: "order"
     properties:
-      - name: "orderNumber"
-      - name: "deliveryDate"
-        direction: desc
-  - kind: "order"
-    properties:
       - name: "customer.mobile"
-      - name: "deliveryDate"
-        direction: desc
-  - kind: "order"
-    properties:
-      - name: "customer.mobile"
-      - name: "orderNumber"
-      - name: "deliveryDate"
-        direction: desc
-  - kind: "order"
-    properties:
-      - name: "orderNumber"
       - name: "orderType"
       - name: "deliveryDate"
         direction: desc
   - kind: "order"
     properties:
       - name: "customer.mobile"
+      - name: "orderStatus"
+      - name: "deliveryDate"
+        direction: desc
+  - kind: "order"
+    properties:
+      - name: "customer.mobile"
+      - name: "orderStatus"
       - name: "orderType"
       - name: "deliveryDate"
         direction: desc
@@ -54,6 +86,7 @@ indexes:
     properties:
       - name: "orderNumber"
       - name: "orderStatus"
+      - name: "orderType"
       - name: "deliveryDate"
         direction: desc
   - kind: "order"
@@ -66,7 +99,8 @@ indexes:
   - kind: "order"
     properties:
       - name: "customer.mobile"
-      - name: "orderStatus"
+      - name: "orderNumber"
+      - name: "orderType"
       - name: "deliveryDate"
         direction: desc
   - kind: "order"
