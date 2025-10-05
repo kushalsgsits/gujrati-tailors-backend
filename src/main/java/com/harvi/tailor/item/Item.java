@@ -41,6 +41,7 @@ public class Item {
         public static final String PAYJAMA = "Payjama";
         public static final String JACKET = "Jacket";
         public static final String SAFARI_SHIRT = "Safari Shirt";
+        public static final String ACCESSORIES = "Accessories";
         public static final String OTHERS = "Others";
         public static final String COMBO = "Combo";
     }
