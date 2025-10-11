@@ -3,7 +3,7 @@ package com.harvi.tailor.order;
 import com.google.cloud.spring.data.datastore.core.DatastoreTemplate;
 import com.harvi.tailor.order.Order.OrderStatus;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RepositoryEventHandler
+@RequiredArgsConstructor
 public class OrderRepositoryEventHandler {
 
-  @Autowired private DatastoreTemplate datastoreTemplate;
+  private final DatastoreTemplate datastoreTemplate;
 
   @HandleBeforeCreate
   public void beforeCreate(Order order) {

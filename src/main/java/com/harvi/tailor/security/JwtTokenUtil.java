@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import javax.crypto.SecretKey;
@@ -48,7 +47,7 @@ public class JwtTokenUtil {
   }
 
   public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-    final Claims claims = getAllClaimsFromToken(token);
+    Claims claims = getAllClaimsFromToken(token);
     return claimsResolver.apply(claims);
   }
 
@@ -57,14 +56,13 @@ public class JwtTokenUtil {
     return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
   }
 
-  private Boolean isTokenExpired(String token) {
-    final Date expiration = getExpirationDateFromToken(token);
+  private boolean isTokenExpired(String token) {
+    Date expiration = getExpirationDateFromToken(token);
     return expiration.before(new Date());
   }
 
   public String generateToken(UserDetails userDetails) {
-    Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, userDetails.getUsername());
+    return doGenerateToken(Map.of(), userDetails.getUsername());
   }
 
   /**
@@ -83,8 +81,8 @@ public class JwtTokenUtil {
         .compact();
   }
 
-  public Boolean validateToken(String token, UserDetails userDetails) {
-    final String username = getUsernameFromToken(token);
-    return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+  public boolean validateToken(String token, UserDetails userDetails) {
+    String username = getUsernameFromToken(token);
+    return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
   }
 }

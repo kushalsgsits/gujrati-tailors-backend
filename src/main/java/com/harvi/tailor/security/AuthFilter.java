@@ -6,8 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +17,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class AuthFilter extends OncePerRequestFilter {
 
-  @Autowired private UserDetailsServiceImpl userDetailsServiceImpl;
-
-  @Autowired private JwtTokenUtil jwtTokenUtil;
+  private final UserDetailsServiceImpl userDetailsServiceImpl;
+  private final JwtTokenUtil jwtTokenUtil;
 
   @Override
   protected void doFilterInternal(
@@ -31,7 +31,7 @@ public class AuthFilter extends OncePerRequestFilter {
     // TODO how to set HTTPS schema in request
     log.info("Received request:: URI={}, Scheme={}", request.getRequestURI(), request.getScheme());
 
-    final String requestTokenHeader = request.getHeader("Authorization");
+    String requestTokenHeader = request.getHeader("Authorization");
 
     String username = null;
     String jwtToken = null;
@@ -42,9 +42,9 @@ public class AuthFilter extends OncePerRequestFilter {
       try {
         username = jwtTokenUtil.getUsernameFromToken(jwtToken);
       } catch (IllegalArgumentException e) {
-        System.out.println("Unable to get JWT Token");
+        log.error("Unable to get JWT Token", e);
       } catch (ExpiredJwtException e) {
-        System.out.println("JWT Token has expired");
+        log.warn("JWT Token has expired", e);
       }
     } else {
       log.warn(

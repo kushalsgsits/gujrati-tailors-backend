@@ -5,14 +5,15 @@ import com.harvi.tailor.order.Order.Customer;
 import com.harvi.tailor.order.Order.OrderItem;
 import com.harvi.tailor.utils.ConverterUtils;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 
 // @Configuration
+@RequiredArgsConstructor
 public class OrderConverterConfig {
 
-  @Autowired private ConverterUtils converterUtils;
+  private final ConverterUtils converterUtils;
 
   @Bean
   public DatastoreCustomConversions datastoreCustomConversions() {

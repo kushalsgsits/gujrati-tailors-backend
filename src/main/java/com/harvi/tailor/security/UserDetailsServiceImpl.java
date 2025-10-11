@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,5 +22,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     } else {
       throw new UsernameNotFoundException("User not found with username: " + username);
     }
+  }
+
+  /**
+   * Utility method to encode passwords using BCrypt Usage: Run this method to generate encoded
+   * passwords for user configuration
+   *
+   * @param args command line arguments (first arg is the password to encode)
+   */
+  public static void main(String[] args) {
+    String passwordToEncode = args.length > 0 ? args[0] : "";
+    String encryptedPassword = new BCryptPasswordEncoder().encode(passwordToEncode);
+    System.out.println("encryptedPassword=" + encryptedPassword);
   }
 }

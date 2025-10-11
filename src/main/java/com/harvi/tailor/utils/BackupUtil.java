@@ -41,7 +41,7 @@ public class BackupUtil {
     List<CustomOrder> orders =
         StreamSupport.stream(allOrdersJson.spliterator(), false)
             .map(jsonNode -> objectMapper.convertValue(jsonNode, CustomOrder.class))
-            .collect(Collectors.toList());
+            .toList();
 
     Set<CustomOrder> uniqueCoatOrders =
         orders.stream()

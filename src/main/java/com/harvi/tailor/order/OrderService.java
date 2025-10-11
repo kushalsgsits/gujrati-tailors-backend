@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -33,9 +32,12 @@ public class OrderService {
 
   public List<Order> findAllOrderByDeliveryDateDesc(
       Map<String, String> requestParams, Pageable pageable) {
+    log.debug("Searching orders with params: {}, page: {}", requestParams, pageable);
     Query<Entity> query = createQuery(requestParams, pageable);
     QueryResults<Entity> results = datastore.run(query);
-    return convertResultsToOrderList(results);
+    List<Order> orders = convertResultsToOrderList(results);
+    log.debug("Found {} orders", orders.size());
+    return orders;
   }
 
   private EntityQuery createQuery(Map<String, String> requestParams, Pageable pageable) {
@@ -131,6 +133,6 @@ public class OrderService {
   private List<Order> convertResultsToOrderList(QueryResults<Entity> results) {
     return stream(Spliterators.spliteratorUnknownSize(results, Spliterator.ORDERED), false)
         .map(Order::createOrderFromEntity)
-        .collect(Collectors.toList());
+        .toList();
   }
 }

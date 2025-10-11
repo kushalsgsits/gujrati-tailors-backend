@@ -6,7 +6,6 @@ import com.google.cloud.datastore.Value;
 import com.google.cloud.spring.data.datastore.core.mapping.Entity;
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -33,9 +32,7 @@ public class Order {
 
     List<Value<?>> orderItemEntityValues = entity.getList("orderItems");
     List<OrderItem> orderItems =
-        orderItemEntityValues.stream()
-            .map(OrderItem::createOrderItemFromEntityValue)
-            .collect(Collectors.toList());
+        orderItemEntityValues.stream().map(OrderItem::createOrderItemFromEntityValue).toList();
 
     Order order = new Order();
     order.setId(entity.getKey().getName());

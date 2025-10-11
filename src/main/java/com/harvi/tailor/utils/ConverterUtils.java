@@ -2,21 +2,23 @@ package com.harvi.tailor.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class ConverterUtils {
 
-  @Autowired private ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
   public <T> String objectToJsonString(T obj) {
     try {
       return objectMapper.writeValueAsString(obj);
     } catch (JsonProcessingException e) {
-      // TODO
-      e.printStackTrace();
-      return null;
+      log.error("Failed to convert object to JSON string", e);
+      throw new RuntimeException("JSON serialization failed", e);
     }
   }
 
@@ -24,8 +26,8 @@ public class ConverterUtils {
     try {
       return objectMapper.readValue(json, clazz);
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
-      return null;
+      log.error("Failed to convert JSON string to object", e);
+      throw new RuntimeException("JSON deserialization failed", e);
     }
   }
 }

@@ -118,7 +118,7 @@ public class ItemService {
     GROUPED_ITEMS =
         ItemGroup.ORDERED_GROUPS.stream()
             .map(groupName -> new ItemsGroup(groupName, groupNameToItemsMap.get(groupName)))
-            .collect(Collectors.toList());
+            .toList();
   }
 
   public List<ItemsGroup> getGroupedItems() {

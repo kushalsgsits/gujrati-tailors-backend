@@ -1,9 +1,8 @@
 package com.harvi.tailor.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,34 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
+@RequiredArgsConstructor
+@Slf4j
 public class AuthenticationController {
 
-  @Autowired private AuthenticationManager authenticationManager;
-
-  @Autowired private JwtTokenUtil jwtTokenUtil;
-
-  @Autowired private UserDetailsServiceImpl userDetailsService;
+  private final AuthenticationManager authenticationManager;
+  private final JwtTokenUtil jwtTokenUtil;
+  private final UserDetailsServiceImpl userDetailsService;
 
   @PostMapping("/authenticate")
   public AuthenticationResponse createAuthenticationToken(
-      @RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-
-    authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+      @RequestBody AuthenticationRequest authenticationRequest) {
+    log.info("Authentication attempt for user: {}", authenticationRequest.username());
+    authenticate(authenticationRequest.username(), authenticationRequest.password());
 
     UserDetails userDetails =
-        userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        userDetailsService.loadUserByUsername(authenticationRequest.username());
     String jwtToken = jwtTokenUtil.generateToken(userDetails);
+    log.info("Authentication successful for user: {}", authenticationRequest.username());
     return new AuthenticationResponse(jwtToken);
   }
 
-  private void authenticate(String username, String password) throws Exception {
-    try {
-      authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(username, password));
-    } catch (DisabledException e) {
-      throw new Exception("USER_DISABLED", e);
-    } catch (BadCredentialsException e) {
-      throw new Exception("INVALID_CREDENTIALS", e);
-    }
+  private void authenticate(String username, String password) {
+    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
   }
 }

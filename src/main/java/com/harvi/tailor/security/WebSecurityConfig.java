@@ -1,6 +1,6 @@
 package com.harvi.tailor.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,20 +16,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Updated for Spring Boot 3.x / Spring Security 6.x
- * https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
-  @Autowired private AuthenticationEntryPointImpl authenticationEntryPoint;
-
-  @Autowired private UserDetailsService userDetailsServiceImpl;
-
-  @Autowired private AuthFilter authFilter;
+  private final AuthenticationEntryPointImpl authenticationEntryPoint;
+  private final UserDetailsService userDetailsServiceImpl;
+  private final AuthFilter authFilter;
 
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {

@@ -5,17 +5,18 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import jakarta.annotation.PreDestroy;
 import java.util.Arrays;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 @Configuration
 @Slf4j
+@RequiredArgsConstructor
 public class CommonConfig {
 
-  @Autowired private Environment environment;
+  private final Environment environment;
 
   @Bean
   public Datastore createDatastore() {
@@ -29,14 +30,13 @@ public class CommonConfig {
 
   private Datastore createDatastoreForLocalEnv() {
     log.info("Creating Datastore for Local env");
-    DatastoreOptions datastoreOptions =
-        DatastoreOptions.newBuilder()
-            .setProjectId("gujrati-tailors-backend")
-            .setNamespace("gujrati-tailors-backend")
-            .setHost("http://localhost:8081")
-            .setCredentials(NoCredentials.getInstance())
-            .build();
-    return datastoreOptions.getService();
+    return DatastoreOptions.newBuilder()
+        .setProjectId("gujrati-tailors-backend")
+        .setNamespace("gujrati-tailors-backend")
+        .setHost("http://localhost:8081")
+        .setCredentials(NoCredentials.getInstance())
+        .build()
+        .getService();
   }
 
   private boolean isProd() {
