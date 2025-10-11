@@ -1,9 +1,10 @@
 package com.harvi.tailor.commons;
 
+import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import java.util.Arrays;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,7 @@ public class CommonConfig {
         .setProjectId("gujrati-tailors-backend")
         .setNamespace("gujrati-tailors-backend")
         .setHost("http://localhost:8081")
+        .setCredentials(NoCredentials.getInstance())
         .build();
     return datastoreOptions.getService();
   }

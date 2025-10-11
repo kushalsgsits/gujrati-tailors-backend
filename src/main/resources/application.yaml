@@ -1,6 +1,6 @@
 logging:
   level:
-    root: debug
+    root: info
 
 # Set the port to the PORT environment variable
 server:
@@ -12,8 +12,8 @@ server:
 spring:
   cloud:
     gcp:
+      project-id: gujrati-tailors-backend
       datastore:
-        project-id: gujrati-tailors-backend
         namespace: gujrati-tailors-backend
   main:
     allow-circular-references: true
@@ -22,4 +22,6 @@ spring:
       - local
 
 jwt:
-  secret: jwt-secret
+  # For HS512, we need at least 512 bits (64 bytes/characters)
+  # In production, this will be overridden by JWT_SECRET environment variable
+  secret: ${JWT_SECRET:ThisIsAVeryLongSecretKeyForHS512AlgorithmThatIsAtLeast64CharactersLongForSecurity123456789}

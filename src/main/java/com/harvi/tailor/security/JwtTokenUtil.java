@@ -2,11 +2,14 @@ package com.harvi.tailor.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +23,22 @@ public class JwtTokenUtil {
 
     @Value("${jwt.secret}")
     private String secret;
+    
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(encodeBase64(secret));
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+    
+    private String encodeBase64(String value) {
+        try {
+            // If already base64, return as is
+            Decoders.BASE64.decode(value);
+            return value;
+        } catch (Exception e) {
+            // Not base64, encode it
+            return java.util.Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+        }
+    }
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -36,7 +55,7 @@ public class JwtTokenUtil {
 
     private Claims getAllClaimsFromToken(String token) {
         // For retrieving any information from token we will need the secret key
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -58,11 +77,11 @@ public class JwtTokenUtil {
      */
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                        .setClaims(claims)
-                        .setSubject(subject)
-                        .setIssuedAt(new Date(System.currentTimeMillis()))
-                        .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                        .signWith(SignatureAlgorithm.HS512, secret)
+                        .claims(claims)
+                        .subject(subject)
+                        .issuedAt(new Date(System.currentTimeMillis()))
+                        .expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
+                        .signWith(getSigningKey())
                         .compact();
     }
 

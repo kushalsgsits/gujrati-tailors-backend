@@ -5,3 +5,9 @@ spring:
         emulator:
           enabled: true
           port: 8081
+          host: localhost:8081
+      project-id: gujrati-tailors-backend
+
+# Development JWT secret - DO NOT use in production
+jwt:
+  secret: ThisIsAVeryLongDevelopmentSecretKeyForHS512AlgorithmThatIsAtLeast64CharactersLongForLocalTesting
