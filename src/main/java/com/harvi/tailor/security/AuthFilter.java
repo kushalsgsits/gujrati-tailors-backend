@@ -1,11 +1,11 @@
 package com.harvi.tailor.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import java.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,15 +19,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 public class AuthFilter extends OncePerRequestFilter {
 
-  @Autowired
-  private UserDetailsServiceImpl userDetailsServiceImpl;
+  @Autowired private UserDetailsServiceImpl userDetailsServiceImpl;
 
-  @Autowired
-  private JwtTokenUtil jwtTokenUtil;
+  @Autowired private JwtTokenUtil jwtTokenUtil;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-      FilterChain chain)
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
 
     // TODO how to set HTTPS schema in request
@@ -49,7 +47,8 @@ public class AuthFilter extends OncePerRequestFilter {
         System.out.println("JWT Token has expired");
       }
     } else {
-      log.warn("JWT Token is null or does not begin with Bearer String for requestURI={}",
+      log.warn(
+          "JWT Token is null or does not begin with Bearer String for requestURI={}",
           request.getRequestURI());
     }
 
@@ -62,8 +61,8 @@ public class AuthFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
             new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
-        usernamePasswordAuthenticationToken
-            .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        usernamePasswordAuthenticationToken.setDetails(
+            new WebAuthenticationDetailsSource().buildDetails(request));
         // After setting the Authentication in the context, we specify
         // that the current user is authenticated. So it passes the
         // Spring Security Configurations successfully.
@@ -72,5 +71,4 @@ public class AuthFilter extends OncePerRequestFilter {
     }
     chain.doFilter(request, response);
   }
-
 }

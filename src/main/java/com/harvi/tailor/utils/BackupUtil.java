@@ -38,25 +38,27 @@ public class BackupUtil {
     String allOrdersString = readFileAsString("all-orders-22-Sept-2024.json");
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode allOrdersJson = objectMapper.readTree(allOrdersString);
-    List<CustomOrder> orders = StreamSupport.stream(allOrdersJson.spliterator(), false)
-        .map(jsonNode -> objectMapper.convertValue(jsonNode, CustomOrder.class))
-        .collect(Collectors.toList());
+    List<CustomOrder> orders =
+        StreamSupport.stream(allOrdersJson.spliterator(), false)
+            .map(jsonNode -> objectMapper.convertValue(jsonNode, CustomOrder.class))
+            .collect(Collectors.toList());
 
-    Set<CustomOrder> uniqueCoatOrders = orders.stream()
-        .filter(order -> order.getOrderType() == OrderType.COAT)
-        .collect(Collectors.groupingBy(
-            o -> o.getCustomer().getMobile(),
-            Collectors.toCollection(TreeSet::new)
-        ))
-        .values()
-        .stream()
-        .map(TreeSet::first)
-        .collect(Collectors.toSet());
+    Set<CustomOrder> uniqueCoatOrders =
+        orders.stream()
+            .filter(order -> order.getOrderType() == OrderType.COAT)
+            .collect(
+                Collectors.groupingBy(
+                    o -> o.getCustomer().getMobile(), Collectors.toCollection(TreeSet::new)))
+            .values()
+            .stream()
+            .map(TreeSet::first)
+            .collect(Collectors.toSet());
 
-    Set<CustomOrder> uniqueRegularOrders = orders.stream()
-        .filter(order -> order.getOrderType() == OrderType.REGULAR)
-        .filter(order -> !uniqueCoatOrders.contains(order))
-        .collect(Collectors.toSet());
+    Set<CustomOrder> uniqueRegularOrders =
+        orders.stream()
+            .filter(order -> order.getOrderType() == OrderType.REGULAR)
+            .filter(order -> !uniqueCoatOrders.contains(order))
+            .collect(Collectors.toSet());
 
     System.out.println("Coat Orders: " + uniqueCoatOrders.size());
     System.out.println("Regular Orders: " + uniqueRegularOrders.size());
@@ -83,11 +85,12 @@ public class BackupUtil {
 
     // Stream through orders and write them to Excel rows
     AtomicInteger rowIdx = new AtomicInteger(1);
-    orders.forEach(order -> {
-      Row row = sheet.createRow(rowIdx.getAndIncrement());
-      row.createCell(0).setCellValue(order.getCustomer().getName());
-      row.createCell(1).setCellValue(order.getCustomer().getMobile());
-    });
+    orders.forEach(
+        order -> {
+          Row row = sheet.createRow(rowIdx.getAndIncrement());
+          row.createCell(0).setCellValue(order.getCustomer().getName());
+          row.createCell(1).setCellValue(order.getCustomer().getMobile());
+        });
 
     // Resize columns to fit content
     for (int i = 0; i < columns.length; i++) {
@@ -120,15 +123,19 @@ public class BackupUtil {
 
     // Stream through orders and write them to Excel rows
     AtomicInteger rowIdx = new AtomicInteger(1);
-    orders.forEach(order -> {
-      Row row = sheet.createRow(rowIdx.getAndIncrement());
-      row.createCell(0).setCellValue(order.getOrderType().name());
-      row.createCell(1).setCellValue(order.getOrderDate());
-      row.createCell(2).setCellValue(order.getCustomer().getName());
-      row.createCell(3).setCellValue(order.getCustomer().getMobile());
-      row.createCell(4).setCellValue(
-          order.getOrderItems().stream().map(OrderItem::getId).collect(Collectors.joining(",")));
-    });
+    orders.forEach(
+        order -> {
+          Row row = sheet.createRow(rowIdx.getAndIncrement());
+          row.createCell(0).setCellValue(order.getOrderType().name());
+          row.createCell(1).setCellValue(order.getOrderDate());
+          row.createCell(2).setCellValue(order.getCustomer().getName());
+          row.createCell(3).setCellValue(order.getCustomer().getMobile());
+          row.createCell(4)
+              .setCellValue(
+                  order.getOrderItems().stream()
+                      .map(OrderItem::getId)
+                      .collect(Collectors.joining(",")));
+        });
 
     // Resize columns to fit content
     for (int i = 0; i < columns.length; i++) {

@@ -31,8 +31,8 @@ public class OrderService {
 
   private final Datastore datastore;
 
-  public List<Order> findAllOrderByDeliveryDateDesc(Map<String, String> requestParams,
-      Pageable pageable) {
+  public List<Order> findAllOrderByDeliveryDateDesc(
+      Map<String, String> requestParams, Pageable pageable) {
     Query<Entity> query = createQuery(requestParams, pageable);
     QueryResults<Entity> results = datastore.run(query);
     return convertResultsToOrderList(results);
@@ -40,9 +40,10 @@ public class OrderService {
 
   private EntityQuery createQuery(Map<String, String> requestParams, Pageable pageable) {
     var orderForDeliveryDate = pageable.getSort().getOrderFor("deliveryDate");
-    var orderBy = null == orderForDeliveryDate || orderForDeliveryDate.getDirection() == Sort.Direction.ASC ?
-                    OrderBy.asc("deliveryDate") :
-                    OrderBy.desc("deliveryDate");
+    var orderBy =
+        null == orderForDeliveryDate || orderForDeliveryDate.getDirection() == Sort.Direction.ASC
+            ? OrderBy.asc("deliveryDate")
+            : OrderBy.desc("deliveryDate");
     return Query.newEntityQueryBuilder()
         .setKind("order")
         .setFilter(createQueryFilter(requestParams, orderBy.getDirection()))
@@ -52,7 +53,8 @@ public class OrderService {
         .build();
   }
 
-  private CompositeFilter createQueryFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
+  private CompositeFilter createQueryFilter(
+      Map<String, String> requestParams, OrderBy.Direction sortOrder) {
     CompositeFilter deliveryDateFilter = createDeliveryDateFilter(requestParams, sortOrder);
 
     List<PropertyFilter> filters = new ArrayList<>();
@@ -64,14 +66,15 @@ public class OrderService {
     return CompositeFilter.and(deliveryDateFilter, filters.toArray(new PropertyFilter[0]));
   }
 
-  private CompositeFilter createDeliveryDateFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
+  private CompositeFilter createDeliveryDateFilter(
+      Map<String, String> requestParams, OrderBy.Direction sortOrder) {
     return CompositeFilter.and(
         createDeliveryDateStartFilter(requestParams, sortOrder),
-        createDeliveryDateEndFilter(requestParams, sortOrder)
-    );
+        createDeliveryDateEndFilter(requestParams, sortOrder));
   }
 
-  private PropertyFilter createDeliveryDateStartFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
+  private PropertyFilter createDeliveryDateStartFilter(
+      Map<String, String> requestParams, OrderBy.Direction sortOrder) {
     String deliveryDateStart = requestParams.get("deliveryDateStart");
     Timestamp start;
     if (StringUtils.isNotBlank(deliveryDateStart)) {
@@ -82,7 +85,8 @@ public class OrderService {
     return PropertyFilter.ge("deliveryDate", start);
   }
 
-  private PropertyFilter createDeliveryDateEndFilter(Map<String, String> requestParams, OrderBy.Direction sortOrder) {
+  private PropertyFilter createDeliveryDateEndFilter(
+      Map<String, String> requestParams, OrderBy.Direction sortOrder) {
     String deliveryDateEnd = requestParams.get("deliveryDateEnd");
     Timestamp end;
     if (StringUtils.isNotBlank(deliveryDateEnd)) {
@@ -93,24 +97,24 @@ public class OrderService {
     return PropertyFilter.le("deliveryDate", end);
   }
 
-  private void createOrderTypeFilter(Map<String, String> requestParams,
-      List<PropertyFilter> filters) {
+  private void createOrderTypeFilter(
+      Map<String, String> requestParams, List<PropertyFilter> filters) {
     String orderType = requestParams.get("orderType");
     if (StringUtils.isNotBlank(orderType)) {
       filters.add(PropertyFilter.eq("orderType", orderType));
     }
   }
 
-  private void createOrderNumberFilter(Map<String, String> requestParams,
-      List<PropertyFilter> filters) {
+  private void createOrderNumberFilter(
+      Map<String, String> requestParams, List<PropertyFilter> filters) {
     String orderNumber = requestParams.get("orderNumber");
     if (StringUtils.isNotBlank(orderNumber)) {
       filters.add(PropertyFilter.eq("orderNumber", Integer.parseInt(orderNumber)));
     }
   }
 
-  private void createOrderStatusFilter(Map<String, String> requestParams,
-      List<PropertyFilter> filters) {
+  private void createOrderStatusFilter(
+      Map<String, String> requestParams, List<PropertyFilter> filters) {
     String orderStatus = requestParams.get("orderStatus");
     if (StringUtils.isNotBlank(orderStatus)) {
       filters.add(PropertyFilter.eq("orderStatus", orderStatus));

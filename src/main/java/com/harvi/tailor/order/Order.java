@@ -16,8 +16,7 @@ import org.springframework.data.annotation.Id;
 @Entity
 public class Order {
 
-  @Id
-  private String id;
+  @Id private String id;
   private OrderType orderType;
   private int orderNumber;
   private OrderStatus orderStatus = OrderStatus.CREATED;
@@ -33,9 +32,10 @@ public class Order {
     Customer customer = Customer.createCustomerFromEntity(customerEntity);
 
     List<Value<?>> orderItemEntityValues = entity.getList("orderItems");
-    List<OrderItem> orderItems = orderItemEntityValues.stream()
-        .map(OrderItem::createOrderItemFromEntityValue)
-        .collect(Collectors.toList());
+    List<OrderItem> orderItems =
+        orderItemEntityValues.stream()
+            .map(OrderItem::createOrderItemFromEntityValue)
+            .collect(Collectors.toList());
 
     Order order = new Order();
     order.setId(entity.getKey().getName());
@@ -60,7 +60,6 @@ public class Order {
       return this.name().substring(0, 1);
     }
   }
-
 
   public enum OrderStatus {
     CREATED,
@@ -103,5 +102,4 @@ public class Order {
       return customer;
     }
   }
-
 }

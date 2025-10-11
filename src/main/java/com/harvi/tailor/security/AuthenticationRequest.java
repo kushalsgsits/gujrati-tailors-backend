@@ -10,10 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
-    private String username;
-    private String password;
+  private String username;
+  private String password;
 
-    public static void main(String[] args) {
-        System.out.println("encryptedPassword=" + new BCryptPasswordEncoder().encode(""));
-    }
+  public static void main(String[] args) {
+    System.out.println("encryptedPassword=" + new BCryptPasswordEncoder().encode(""));
+  }
 }

@@ -25,14 +25,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
-  @Autowired
-  private AuthenticationEntryPointImpl authenticationEntryPoint;
+  @Autowired private AuthenticationEntryPointImpl authenticationEntryPoint;
 
-  @Autowired
-  private UserDetailsService userDetailsServiceImpl;
+  @Autowired private UserDetailsService userDetailsServiceImpl;
 
-  @Autowired
-  private AuthFilter authFilter;
+  @Autowired private AuthFilter authFilter;
 
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
@@ -48,7 +45,8 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
+      throws Exception {
     return authConfig.getAuthenticationManager();
   }
 
@@ -57,19 +55,25 @@ public class WebSecurityConfig {
 
     // CORS needs to be processed before Spring Web Security
     // Besides, it exclude OPTIONS request from authorization checks
-    httpSecurity.cors(cors -> {})
+    httpSecurity
+        .cors(cors -> {})
         // We don't need CSRF for this app
         .csrf(csrf -> csrf.disable())
         // dont authenticate login request (i.e. /authenticate)
-        .authorizeHttpRequests(authz -> authz
-            .requestMatchers("/authenticate").permitAll()
-            // all other requests need to be authenticated
-            .anyRequest().authenticated()
-        )
+        .authorizeHttpRequests(
+            authz ->
+                authz
+                    .requestMatchers("/authenticate")
+                    .permitAll()
+                    // all other requests need to be authenticated
+                    .anyRequest()
+                    .authenticated())
         // configure exceptionHandling using AuthenticationEntryPoint
         .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
-        // make sure we use stateless session; session won't be used to store user's state.
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        // make sure we use stateless session; session won't be used to store user's
+        // state.
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         // Configure authentication provider
         .authenticationProvider(authenticationProvider());
 
@@ -78,5 +82,4 @@ public class WebSecurityConfig {
 
     return httpSecurity.build();
   }
-
 }

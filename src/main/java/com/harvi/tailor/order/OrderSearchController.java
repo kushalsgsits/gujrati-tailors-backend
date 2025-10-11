@@ -31,5 +31,4 @@ public class OrderSearchController {
     List<Order> orders = service.findAllOrderByDeliveryDateDesc(requestParams, pageable);
     return ResponseEntity.ok(resourceAssembler.toCollectionModel(orders));
   }
-
 }
