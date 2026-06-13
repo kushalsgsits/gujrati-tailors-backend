@@ -12,6 +12,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler({IllegalArgumentException.class})
+  public ResponseEntity<Map<String, String>> handleBadRequest(IllegalArgumentException e) {
+    log.error("Bad request", e);
+    Map<String, String> response =
+        Map.of("errorMessage", e.getMessage(), "internalErrorMessage", e.getMessage());
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
   @ExceptionHandler({Exception.class})
   public ResponseEntity<Map<String, String>> handleException(Exception e) {
     log.error("Caught by GlobalExceptionHandler", e);
